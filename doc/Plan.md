@@ -12,8 +12,15 @@ Multiply 2 polynomials of order n
 Smallest problem:
 * (a + b)*(c + d) = a * c(0) + a * d(1) + b * c(1) + a * c(2) = (a * c)(0) + (a * d + b * c)(1) + (b * d)(2)
     * where (a * c) = p, (a * d + b * c) = q, (b * d) = r
+      in p + qx + rx^2
+    * or a = PQ_LL, b = PQ_LH, c = PQ_HL, d = PQ_HH
 
 Turning smallest problem into 3 multiplications instead of 4 
 (do addition first)
 * p = (a * c), r = (b * d), q = (a + b)*(c + d) - p - r
 
+
+# Implementation
+
+
+# Test Cases
