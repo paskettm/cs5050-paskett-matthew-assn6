@@ -81,7 +81,7 @@ def loglogPlot3(x, y1, y2, y3):
     plt.xscale("log")
     plt.title("Log-Log Plot of Problem Size v Run Time")
     plt.legend()
-    plt.savefig("loglog.png")
+    plt.savefig("loglog12.png")
     # Using numpy.polyfit to find slope and intercept of loglog graphs
     degree = 1
     slopeHS, interceptHS = np.polyfit(np.log(x), np.log(y1), degree)
@@ -131,7 +131,7 @@ def main():
 
     # Generating a problem and timing the three algorithms
     n = 2**4
-    maxN = 2**12
+    maxN = 2**8
     nCount = np.zeros(maxN+1)
     runtimeHS = np.zeros(maxN+1)
     rtHSBunch = []
@@ -186,11 +186,12 @@ def main():
     print(f"3 Sub Problem becomes faster than HS\n at log(n) ~= {HS3Scross}")
     cross4S3S = abs((intercept3S - intercept4S) / (slope4S - slope3S))
     print(f"3 Sub Problem becomes faster than 4 Sub Problem\n at log(n) ~= {cross4S3S}")
+    print()
 
     # Calculating difference of the intercepts compared to the high school algo
-    diffHS3S = interceptHS - intercept3S
+    diffHS3S = abs(interceptHS - intercept3S)
     print(f"c multiplier of 3 sub problem compared to high school = {diffHS3S}")
-    diffHS4S = interceptHS - intercept4S
+    diffHS4S = abs(interceptHS - intercept4S)
     print(f"c multiplier of 4 sub problem compared to high school = {diffHS4S}")
 
 

@@ -1,0 +1,25 @@
+Checking the values of a small problem using the 3 sub problem algo:
+0.0*x^6 + 0.0*x^5 + 1.0*x^4 + 2.0*x^3 + 6.0*x^2 + 5.0*x^1 + 6.0*x^0
+
+Checking that 3 sub gives same output as high school:
+High School:
+165.0*x^30 + 135.0*x^29 + 404.0*x^28 + 550.0*x^27 + 529.0*x^26 + 626.0*x^25 + 771.0*x^24 + 688.0*x^23 + 807.0*x^22 + 1202.0*x^21 + 1202.0*x^20 + 1116.0*x^19 + 1350.0*x^18 + 1370.0*x^17 + 1374.0*x^16 + 1708.0*x^15 + 1582.0*x^14 + 1705.0*x^13 + 1573.0*x^12 + 1178.0*x^11 + 1140.0*x^10 + 1226.0*x^9 + 975.0*x^8 + 755.0*x^7 + 754.0*x^6 + 710.0*x^5 + 403.0*x^4 + 311.0*x^3 + 296.0*x^2 + 316.0*x^1 + 240.0*x^0
+3 Sub Problem:
+165.0*x^30 + 135.0*x^29 + 404.0*x^28 + 550.0*x^27 + 529.0*x^26 + 626.0*x^25 + 771.0*x^24 + 688.0*x^23 + 807.0*x^22 + 1202.0*x^21 + 1202.0*x^20 + 1116.0*x^19 + 1350.0*x^18 + 1370.0*x^17 + 1374.0*x^16 + 1708.0*x^15 + 1582.0*x^14 + 1705.0*x^13 + 1573.0*x^12 + 1178.0*x^11 + 1140.0*x^10 + 1226.0*x^9 + 975.0*x^8 + 755.0*x^7 + 754.0*x^6 + 710.0*x^5 + 403.0*x^4 + 311.0*x^3 + 296.0*x^2 + 316.0*x^1 + 240.0*x^0
+
+
+
+High School Equation:
+log(runtime) = 1.993863782533862*log(n) + log(-11.648848602520895)
+4 Sub Problem Equation:
+log(runtime) = 1.9870358794015688*log(n) + log(-9.617760347947353)
+3 Sub Problem Equation:
+log(runtime) = 1.5906700254607082*log(n) + log(-9.381142104131367)
+
+3 Sub Problem becomes faster than HS
+ at log(n) ~= 5.624359153899508
+3 Sub Problem becomes faster than 4 Sub Problem
+ at log(n) ~= 0.5969692935539561
+
+c multiplier of 3 sub problem compared to high school = 1.7703278361889794
+c multiplier of 4 sub problem compared to high school = 1.6210319939021414
