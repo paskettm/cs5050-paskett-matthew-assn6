@@ -81,7 +81,7 @@ def loglogPlot3(x, y1, y2, y3):
     plt.xscale("log")
     plt.title("Log-Log Plot of Problem Size v Run Time")
     plt.legend()
-    plt.savefig("loglog12.png")
+    plt.savefig("loglog.png")
     # Using numpy.polyfit to find slope and intercept of loglog graphs
     degree = 1
     slopeHS, interceptHS = np.polyfit(np.log(x), np.log(y1), degree)
