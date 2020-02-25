@@ -1,5 +1,6 @@
 # Analysis
-The output graph is located in the main folder as `loglog.png`.
+The output graph is located in the main folder as `loglog.png`. Graph
+from running maxN = 2**12 is located in `loglog12.png`
 According to the output given to the console from running the program, 
 the slopes match our mathematical analysis of the algos. The 3 sub 
 problem slope has been smaller than the 4 sub problem and high school 
