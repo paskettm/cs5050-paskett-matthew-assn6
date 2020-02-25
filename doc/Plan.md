@@ -19,8 +19,24 @@ Turning smallest problem into 3 multiplications instead of 4
 (do addition first)
 * p = (a * c), r = (b * d), q = (a + b)*(c + d) - p - r
 
+## Empirical Study
+Plot 3 algorithms' runtime on loglog graph. Measure slope and offset
+(c value) of all three lines (use `numpy.polyfit`). The graphs you'll
+see are according to the function **log(f(n)) = klog(n) + log(c)**
+where **k** is the slope and **c** is the offset.
+
+Answer these questions:
+* Do the slopes confirm our mathematical analysis of the algorithms? AKA,
+  is the slope flatter for the 3 sub problem?
+* At what problem size does the n^(1.59) {3 sub} algo become faster than the other two?
+* What is the **c** multiplier of the two recursive algos compared to
+  the high school algo (using anti-logs to get the multiplicative factor)?
+  This gives an idea of the "overhead".
+
 
 # Implementation
+The biggest issue with writing the code is figuring out how to turn the 
+math into code for the 3 sub problem algo.
 
 
 # Test Cases

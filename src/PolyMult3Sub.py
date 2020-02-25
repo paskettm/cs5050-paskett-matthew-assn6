@@ -3,6 +3,7 @@ import numpy as np
 from random import randint, random
 import time
 import matplotlib.pyplot as plt
+import sys
 
 # Polynomial Multiplication High School Algorithm
 def PMHighSchool(P, Q):
@@ -40,16 +41,20 @@ def PMDivConq3Sub(P, Q, n):
     if n == 1:
         PQ[0] = P[0]*Q[0]
         return PQ
+    # Dividing the problem into 3 sub problems AND CONQUERING
     PQ_LL = PMDivConq3Sub(P[0:int(n/2)], Q[0:int(n/2)], int(n/2))
     PQ_HH = PMDivConq3Sub(P[int(n/2):], Q[int(n/2):], int(n/2))
-    PQ_M = PMDivConq3Sub()
-
+    PQ_ML = []
+    PQ_MH = []
+    for i in range(int(n/2)):
+        PQ_ML.append(P[i] + P[i+int(n/2)])
+        PQ_MH.append(Q[i] + Q[i+int(n/2)])
+    PQ_M = PMDivConq3Sub(PQ_ML, PQ_MH, int(n/2))
     # Solution construction step
     for i in range(0, n):
         PQ[i] += PQ_LL[i]
-        PQ[i+int(n/2)] += PQ_LH[i]
-        PQ[i+int(n/2)] += PQ_HL[i]
         PQ[i+n] += PQ_HH[i]
+        PQ[i+int(n/2)] += PQ_M[i] - PQ_LL[i] - PQ_HH[i]
     return PQ
 
 
@@ -64,7 +69,9 @@ def probGen(n):
 
 
 # Function to create a logarithmic y-axis plot for runtimes
-def loglogPlot2(x, y1, y2, y3):
+# and calculate slopes and offsets
+def loglogPlot3(x, y1, y2, y3):
+    # Creating loglog graph of 3 algos
     plt.plot(x, y1, label="HS")
     plt.plot(x, y2, label="4Sub")
     plt.plot(x, y3, label="3Sub")
@@ -74,7 +81,14 @@ def loglogPlot2(x, y1, y2, y3):
     plt.xscale("log")
     plt.title("Log-Log Plot of Problem Size v Run Time")
     plt.legend()
+    plt.savefig("loglog.png")
     plt.show()
+    # Using numpy.polyfit to find slope and intercept of loglog graphs
+    degree = 1
+    slopeHS, interceptHS = np.polyfit(np.log(x), np.log(y1), degree)
+    slope4S, intercept4S = np.polyfit(np.log(x), np.log(y2), degree)
+    slope3S, intercept3S = np.polyfit(np.log(x), np.log(y3), degree)
+    return slopeHS, interceptHS, slope4S, intercept4S, slope3S, intercept3S
 
 
 def main():
@@ -89,7 +103,7 @@ def main():
     print()
     print()
 
-    # Testing the 3 sub problem algorithm with larger data set
+    # Testing the 3 sub problem against 4 sub problem
     n = 2**randint(1, 4)
     P = []
     Q = []
@@ -103,33 +117,48 @@ def main():
         if i-1 != -1:
             print(" + ", end="")
     print()
+    PQ = PMDivConq3Sub(P, Q, n)
+    print("3 Sub Problem:")
+    for i in range(len(PQ) - 2, -1, -1):
+        print(f"{float(PQ[i])}*x^{i}", end="")
+        if i - 1 != -1:
+            print(" + ", end="")
+    print()
     print()
 
     # Generating a problem and timing the three algorithms
-    n = 2**4
+    n = 2**5
     maxN = 2**7
     nCount = np.zeros(maxN+1)
     runtimeHS = np.zeros(maxN+1)
-    runtimeDC = np.zeros(maxN+1)
+    rtHSBunch = []
+    runtime4S = np.zeros(maxN+1)
+    rt4SBunch = []
     runtime3S = np.zeros(maxN + 1)  # 3 sub problem run time
+    rt3SBunch = []
+    nBunch = []
     while n <= maxN:
         nCount[n] = n
+        nBunch.append(n)  # Keeping track of n values used
         [P, Q] = probGen(n)
         start = time.time()
         for i in range(0, 10):
             PMHighSchool(P[i], Q[i])
         end = time.time()
         runtimeHS[n] = end - start
+        rtHSBunch.append(runtimeHS[n])  # Keeping track of values computed
         start = time.time()
         for i in range(0, 10):
             PMDivConq4Sub(P[i], Q[i], n)
         end = time.time()
-        runtimeDC[n] = end - start
+        runtime4S[n] = end - start
+        rt4SBunch.append(runtime4S[n])  # Keeping track of values computed
         start = time.time()
         for i in range(0, 10):
             PMDivConq3Sub(P[i], Q[i], n)
         end = time.time()
         runtime3S[n] = end - start
+        rt3SBunch.append(runtime3S[n])  # Keeping track of values computed
 
         n *= 2
 
@@ -137,8 +166,16 @@ def main():
     f.truncate(0)
     f.write(f"P:{str(P)}")
     f.write(f"Q:{str(Q)}")
+    f.close()
 
-    loglogPlot2(nCount, runtimeHS, runtimeDC, runtime3S)
+    slopeHS, interceptHS, slope4S, intercept4S, slope3S, intercept3S = loglogPlot3(nBunch, rtHSBunch, rt4SBunch, rt3SBunch)
+
+    print(f"High School Equation: log(runtime) = {slopeHS}*log(n) + log({interceptHS})")
+    print()
+    print(f"4 Sub Problem Equation: log(runtime) = {slope4S}*log(n) + log({intercept4S})")
+    print()
+    print(f"3 Sub Problem Equation: log(runtime) = {slope3S}*log(n) + log({intercept3S})")
+    print()
 
 
 main()
