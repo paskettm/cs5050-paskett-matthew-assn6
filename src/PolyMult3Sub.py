@@ -82,7 +82,6 @@ def loglogPlot3(x, y1, y2, y3):
     plt.title("Log-Log Plot of Problem Size v Run Time")
     plt.legend()
     plt.savefig("loglog.png")
-    plt.show()
     # Using numpy.polyfit to find slope and intercept of loglog graphs
     degree = 1
     slopeHS, interceptHS = np.polyfit(np.log(x), np.log(y1), degree)
@@ -93,6 +92,7 @@ def loglogPlot3(x, y1, y2, y3):
 
 def main():
     # Testing the 3 sub problem algorithm
+    print("Checking the values of a small problem using the 3 sub problem algo:")
     P = [2, 1, 1, 0]
     Q = [3, 1, 1, 0]
     PQ = PMDivConq3Sub(P, Q, len(P))
@@ -103,7 +103,8 @@ def main():
     print()
     print()
 
-    # Testing the 3 sub problem against 4 sub problem
+    # Testing the 3 sub problem against high school
+    print("Checking that 3 sub gives same output as high school:")
     n = 2**randint(1, 4)
     P = []
     Q = []
@@ -125,10 +126,12 @@ def main():
             print(" + ", end="")
     print()
     print()
+    print()
+    print()
 
     # Generating a problem and timing the three algorithms
-    n = 2**5
-    maxN = 2**7
+    n = 2**4
+    maxN = 2**12
     nCount = np.zeros(maxN+1)
     runtimeHS = np.zeros(maxN+1)
     rtHSBunch = []
@@ -170,12 +173,25 @@ def main():
 
     slopeHS, interceptHS, slope4S, intercept4S, slope3S, intercept3S = loglogPlot3(nBunch, rtHSBunch, rt4SBunch, rt3SBunch)
 
-    print(f"High School Equation: log(runtime) = {slopeHS}*log(n) + log({interceptHS})")
+    print(f"High School Equation:\nlog(runtime) = {slopeHS}*log(n) + log({interceptHS})")
+    print(f"4 Sub Problem Equation:\nlog(runtime) = {slope4S}*log(n) + log({intercept4S})")
+    print(f"3 Sub Problem Equation:\nlog(runtime) = {slope3S}*log(n) + log({intercept3S})")
     print()
-    print(f"4 Sub Problem Equation: log(runtime) = {slope4S}*log(n) + log({intercept4S})")
-    print()
-    print(f"3 Sub Problem Equation: log(runtime) = {slope3S}*log(n) + log({intercept3S})")
-    print()
+
+    # Finding where 3 Sub becomes faster than HS
+    # When does slopeHS*x + interceptHS = slope3S*x + intercept3S ?
+    # (slopeHS - slope3S)*x = intercept3S - interceptHS
+    # x = (intercept3S - interceptHS) / (slopeHS - slope3S)
+    HS3Scross = abs((intercept3S - interceptHS) / (slopeHS - slope3S))
+    print(f"3 Sub Problem becomes faster than HS\n at log(n) ~= {HS3Scross}")
+    cross4S3S = abs((intercept3S - intercept4S) / (slope4S - slope3S))
+    print(f"3 Sub Problem becomes faster than 4 Sub Problem\n at log(n) ~= {cross4S3S}")
+
+    # Calculating difference of the intercepts compared to the high school algo
+    diffHS3S = interceptHS - intercept3S
+    print(f"c multiplier of 3 sub problem compared to high school = {diffHS3S}")
+    diffHS4S = interceptHS - intercept4S
+    print(f"c multiplier of 4 sub problem compared to high school = {diffHS4S}")
 
 
 main()

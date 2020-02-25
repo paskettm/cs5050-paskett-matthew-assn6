@@ -40,3 +40,8 @@ math into code for the 3 sub problem algo.
 
 
 # Test Cases
+
+I tested a small problem (given as output in the main function).
+
+I also tested larger problems with the 3 sub against high school to 
+check that they matched (given as output in the main function).
